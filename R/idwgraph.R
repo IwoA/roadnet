@@ -130,19 +130,12 @@ idw_graph <- function(roads, aprs, power = 2) {
     select(EdgeID, from, to, waga)
   tictoc::toc()
 
-  library(tidygraph)
-  # Tworzenie i poprawianie grafu
-  graph <- tbl_graph(
-    nodes = as_tibble(n),
-    edges = as_tibble(e_dist),
-    directed = FALSE
-  )
-
   # IDW z pprow wg drog ----
-  ppr_node <- graph |>
-    activate(nodes) |>
-    as_tibble() |>
+  # bez tidygraph: zrodla bierzemy bezposrednio z n
+  ppr_node <- n |>
+    sf::st_drop_geometry() |>
     dplyr::filter(!is.na(r))
+
   src_nodes <- ppr_node$nodeID
   src_vals <- ppr_node$r
   K <- length(src_nodes)
@@ -188,7 +181,6 @@ idw_graph <- function(roads, aprs, power = 2) {
     idw_est[has_zero] <- src_vals[src_idx[has_zero]]
   }
 
-  nodes_tbl <- as_tibble(n) |> sf::st_drop_geometry()
   wynik <- n |>
     dplyr::mutate(r = dplyr::if_else(is.na(r), idw_est, r))
   tictoc::toc()

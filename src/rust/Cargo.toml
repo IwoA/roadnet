@@ -1,11 +1,17 @@
 [package]
-name = "networkidw"
-version = "0.1.0"
-edition = "2021"
+name = 'roadnet'
+publish = false
+version = '0.1.0'
+edition = '2021'
+rust-version = '1.65'
 
 [lib]
-crate-type = ["staticlib", "cdylib"]
+crate-type = [ 'staticlib' ]
+name = 'roadnet'
 
 [dependencies]
-extendr-api = "0.8.1"
-petgraph = "0.8.3"
+extendr-api = '0.8.1'
+
+[profile.release]
+lto = true
+codegen-units = 1
