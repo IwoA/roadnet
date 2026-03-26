@@ -51,3 +51,5 @@ rsconnect/
 src/rust/vendor
 src/Makevars
 src/Makevars.win
+R/test_data/legnica_pprs.gpkg
+R/test_data/legnica_test.gpkg
