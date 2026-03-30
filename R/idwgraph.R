@@ -74,7 +74,7 @@ idw_graph <- function(roads, aprs, power = 2) {
   # tm_shape(filter(roads, !is.na(r))) + tm_lines() + tm_shape(pprs) + tm_dots(col = "red")
 
   # Tworzenie nodes
-  n <- roads %>% select(r, dl_segm) %>% mutate(nodeID = c(1:n()))
+  n <- roads %>% select(ID, r, dl_segm) %>% mutate(nodeID = c(1:n()))
 
   # Tworzenie edges miedzy nodes
   e <- n %>%
@@ -118,7 +118,6 @@ idw_graph <- function(roads, aprs, power = 2) {
   # edges to linie wiec trzeba dodac dlugosc, ktora bedzie waga dla shortest_paths
   # ponieważ n1 to centroida odcinka to długość to suma połowy odcinków z obu stron, czyli 0.5*dl_odcinka1 + 0.5*dl_odcinka2.
   # Dolacz geometrie wezlow "from" i "to" do krawedzi i policz odleglosci wektorowo
-  n <- roads %>% select(r, dl_segm) %>% mutate(nodeID = c(1:n()))
   n1_lookup <- n %>% st_drop_geometry() |> dplyr::select(nodeID, dl_segm)
   e_dist <- e %>%
     dplyr::left_join(n1_lookup, by = c("from" = "nodeID")) %>%
