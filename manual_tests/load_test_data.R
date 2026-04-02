@@ -26,7 +26,7 @@ tictoc::tic("idw_graph")
 test <- idw_graph(test_data, aprs)
 tictoc::toc()
 
-#Weryfikacja
+# Weryfikacja
 library(tmap)
 tmap_mode("view")
 
@@ -41,3 +41,8 @@ tm_shape(test) +
   tm_shape(aprs) +
   tm_dots(fill = "green", size = 1) +
   tm_text("r")
+
+# Łączenie z oryginalnymi danymi
+test_joined <- test_data %>%
+  left_join(test %>% st_drop_geometry() %>% select(ID, r), by = "ID") |>
+  mutate()
